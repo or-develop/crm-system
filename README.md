@@ -25,7 +25,7 @@
 
 ### 👔 Руководство проекта:
 
-<strong>Lead</strong> <a href="https://github.com/sogorich/">sogorich</a>
+<strong>Lead</strong> <a href="https://github.com/sogorich/">sogorich</a> <br>
 <strong>Admin</strong> <a href="https://github.com/vami7ir/">vami7ir</a>
 
 ### 📚 Поддержка проекта:
@@ -95,6 +95,9 @@ python manage.py makemigrations
 </pre>
 <pre>
 python manage.py migrate
+</pre>
+<pre>
+exit
 </pre>
 <pre>
 docker-compose down -v
