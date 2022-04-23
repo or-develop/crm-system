@@ -4,7 +4,7 @@ from .models import Lead
 
 
 class AddLeadSerializer(serializers.ModelSerializer):
-    "API для добавления Лида в базу данных"
+    """ API для добавления Лида в базу данных. """
 
     class Meta:
         model = Lead
