@@ -1,9 +1,13 @@
 .vscode
 
+.idea/
+venv/
 env/
 .env
 *.log
 
+
+123/crm-system/crm/migrations/
 migrations/
 __pycache__/
 media/
