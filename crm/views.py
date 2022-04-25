@@ -2,7 +2,7 @@ from rest_framework import generics
 
 from .models import Lead
 from .services import get_all
-from .serializers import *
+from .serializers import AddLeadSerializer, LeadListSerializer
 
 
 class AddLead(generics.CreateAPIView):
