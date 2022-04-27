@@ -2,7 +2,7 @@ from rest_framework import generics
 
 from .models import Lead
 from .services import get_all
-from .serializers import AddLeadSerializer
+from .serializers import AddLeadSerializer, LeadListSerializer
 
 
 class AddLead(generics.CreateAPIView):
@@ -10,3 +10,10 @@ class AddLead(generics.CreateAPIView):
 
     queryset = get_all(Lead)
     serializer_class = AddLeadSerializer
+
+
+class LeadList(generics.ListAPIView):
+    """ Класс вывода списка всех Лидов"""
+
+    queryset = get_all(Lead)
+    serializer_class = LeadListSerializer

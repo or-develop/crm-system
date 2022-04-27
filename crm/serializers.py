@@ -9,3 +9,10 @@ class AddLeadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lead
         fields = ('name', 'email', 'phone')
+
+class LeadListSerializer(serializers.ModelSerializer):
+    """ API для вывода списка Лидов. """
+
+    class Meta:
+        model = Lead
+        fields = ('name', 'email', 'phone')
