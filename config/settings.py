@@ -84,6 +84,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': os.environ.get('REST_RENDERER').split(' '),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
 }
 
 LANGUAGE_CODE = os.environ.get('LANGUAGE_CODE')
