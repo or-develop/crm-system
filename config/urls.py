@@ -7,6 +7,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('api/', include('crm.urls')),
+    path('api-auth/', include('rest_framework.urls')), # Для аутентификации через session
 ]
 
 
@@ -18,6 +19,5 @@ if settings.DEBUG:
     urlpatterns.extend(
         (
             path('admin/', admin.site.urls),
-            path('api-auth/', include('rest_framework.urls')),
         )
     )

@@ -1,13 +1,19 @@
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from rest_framework import generics
+
+from .models import Lead
+from .services import get_all
+from .serializers import AddLeadSerializer, LeadListSerializer
 
 
-@api_view(['GET'])
-def hello_view(request) -> Response:
-    """ Тестовая вьюшка - удалить при разработке. """
+class AddLead(generics.CreateAPIView):
+    """ Класс добавления Лида в базу. """
 
-    if request.method == 'GET':
-        return Response(
-            {'success': True, 'msg': 'Hello World!'},
-            status=status.HTTP_200_OK)
+    queryset = get_all(Lead)
+    serializer_class = AddLeadSerializer
+
+
+class LeadList(generics.ListAPIView):
+    """ Класс вывода списка всех Лидов"""
+
+    queryset = get_all(Lead)
+    serializer_class = LeadListSerializer
