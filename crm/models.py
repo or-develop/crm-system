@@ -51,9 +51,9 @@ class Agent(AbstractUser):
         db_table = 'agents'
 
 
-class Funnel:
+class Funnel(models.Model):
     """" Модель воронки продаж. """
-    title = models.CharField('Категория воронки', max_length=256)
+    title = models.CharField('Название воронки', max_length=256)
 
     def __str__(self):
         return self.title
@@ -73,8 +73,8 @@ class Lead(AbstractModelDateTime):
     email = models.EmailField('Email клиента', max_length=256)
     phone = models.CharField('Номер телефона клиента',
                              max_length=50, blank=True)
-    funnel = models.OneToOneField('Текущая категория воронки',
-                                  Funnel, on_delete=models.CASCADE, related_name='lead')
+    funnel = models.ForeignKey('Текущая категория воронки',
+                               Funnel, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
 
