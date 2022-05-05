@@ -16,12 +16,4 @@ class LeadListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lead
-        fields = ('name', 'email', 'phone')
-
-
-class LatestApplicationsSerializer(serializers.ModelSerializer):
-    """ API для заявок последних 30-ти дней """
-
-    class Meta:
-        model = AbstractModelDateTime
-        fields = ('created', )
+        fields = ('name', 'email', 'phone', 'created')

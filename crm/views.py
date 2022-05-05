@@ -22,5 +22,7 @@ class LeadList(generics.ListAPIView):
 class LatestApplications(generics.ListAPIView):
     """ Класс получения заявок последних 30-ти дней. """
 
-    queryset = last_thirty_days(Lead)
+    days = 30
+
+    queryset = last_thirty_days(Lead, days)
     serializer_class = LatestApplicationsSerializer
