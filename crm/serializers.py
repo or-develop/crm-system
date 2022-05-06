@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Lead, AbstractModelDateTime
+from .models import Lead
 
 
 class AddLeadSerializer(serializers.ModelSerializer):
@@ -16,4 +16,4 @@ class LeadListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lead
-        fields = ('name', 'email', 'phone', 'created')
+        fields = ('name', 'email', 'phone')

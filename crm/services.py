@@ -11,8 +11,10 @@ def get_all(model: Model) -> QuerySet:
     return model.objects.all()
 
 
-def last_thirty_days(model: Model, days: int) -> QuerySet:
-    """ Возвращает QuerySet с последними заявками за 30 дней. """
+def last_requests(model: Model, days: int) -> QuerySet:
+    """
+        Возвращает QuerySet с последними заявками за выбранную дату
+    """
 
     days_ago = datetime.date.today() - datetime.timedelta(days=days)
 
