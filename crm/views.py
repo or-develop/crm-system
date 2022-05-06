@@ -26,4 +26,4 @@ class LatestRequests(generics.ListAPIView):
 
     def get_queryset(self):
         days = self.kwargs['days']
-        return last_requests(Lead, days['days'])
+        return last_requests(Lead, days)
