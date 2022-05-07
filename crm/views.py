@@ -1,8 +1,7 @@
-from rest_framework import generics
-
-from .models import Lead
-from .services import get_all
-from .serializers import AddLeadSerializer, LeadListSerializer
+from rest_framework import generics, viewsets
+from .models import Lead, Agent
+from .services import get_all, IsOwnerOrReadOnly
+from .serializers import AddLeadSerializer, LeadListSerializer, AgentSerializer
 
 
 class AddLead(generics.CreateAPIView):
@@ -17,3 +16,11 @@ class LeadList(generics.ListAPIView):
 
     queryset = get_all(Lead)
     serializer_class = LeadListSerializer
+
+
+class AgentList(viewsets.ModelViewSet):
+    """ Класс вывода и редактирования всех агентов. """
+
+    queryset = get_all(Agent)
+    serializer_class = AgentSerializer
+    permission_classes = [IsOwnerOrReadOnly]
