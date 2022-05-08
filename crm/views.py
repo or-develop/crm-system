@@ -1,8 +1,10 @@
 from rest_framework import generics
-
-from .models import Lead
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
+from .permissions import IsOwnerOrReadOnly
+from .models import Lead, Agent
 from .services import get_all, last_requests
-from .serializers import AddLeadSerializer, LeadListSerializer
+from .serializers import AddLeadSerializer, LeadListSerializer, AgentSerializer
 
 
 class AddLead(generics.CreateAPIView):
@@ -27,3 +29,21 @@ class LatestRequests(generics.ListAPIView):
     def get_queryset(self):
         days = self.kwargs['days']
         return last_requests(Lead, days)
+
+
+class AgentList(generics.RetrieveUpdateAPIView):
+    """ Класс вывода и редактирования агента. """
+
+    serializer_class = AgentSerializer
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+
+    def get_object(self):
+        agent = get_object_or_404(Agent, pk=self.kwargs['pk'])
+
+        if not agent.phone:
+            agent.phone = 'не указано'
+
+        if not agent.date_of_birth:
+            agent.date_of_birth = 'не указано'
+
+        return agent
