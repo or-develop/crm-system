@@ -73,8 +73,7 @@ class Lead(AbstractModelDateTime):
     email = models.EmailField('Email клиента', max_length=256)
     phone = models.CharField('Номер телефона клиента',
                              max_length=50, blank=True)
-    funnel = models.ForeignKey('Текущая категория воронки',
-                               Funnel, on_delete=models.CASCADE)
+    funnel = models.ForeignKey(Funnel, on_delete=models.CASCADE, verbose_name="Текущая категория воронки")
 
     def __str__(self) -> str:
 
