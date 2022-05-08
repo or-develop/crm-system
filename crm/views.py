@@ -1,7 +1,7 @@
 from rest_framework import generics
 
 from .models import Lead
-from .services import get_all
+from .services import get_all, last_requests
 from .serializers import AddLeadSerializer, LeadListSerializer
 
 
@@ -17,3 +17,13 @@ class LeadList(generics.ListAPIView):
 
     queryset = get_all(Lead)
     serializer_class = LeadListSerializer
+
+
+class LatestRequests(generics.ListAPIView):
+    """ Класс получения заявок. """
+
+    serializer_class = LeadListSerializer
+
+    def get_queryset(self):
+        days = self.kwargs['days']
+        return last_requests(Lead, days)
