@@ -21,5 +21,5 @@ class IsAdminOrSuperuserOnly(BasePermission):
 
     def has_permission(self, request, obj):
 
-        if request.user in (request.user.is_staff, request.user.is_superuser):
+        if request.user.is_staff or request.user.is_superuser:
             return True
