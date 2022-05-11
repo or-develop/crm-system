@@ -1,7 +1,8 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-from .permissions import IsOwnerOrReadOnly
+
+from .permissions import IsOwnerOrReadOnly, IsAdminOrSuperuserOnly
 from .models import Lead, Agent
 from .services import get_all, last_requests
 from .serializers import AddLeadSerializer, LeadListSerializer, AgentSerializer
@@ -47,3 +48,11 @@ class AgentList(generics.RetrieveUpdateAPIView):
             agent.date_of_birth = 'не указано'
 
         return agent
+
+
+class AddAgent(generics.CreateAPIView):
+    """Класс добавления Агента"""
+
+    queryset = get_all(Agent)
+    serializer_class = AgentSerializer
+    permission_classes = (IsAdminOrSuperuserOnly, )
