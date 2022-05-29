@@ -7,19 +7,19 @@ from rest_framework.response import Response
 from .permissions import IsOwnerOrReadOnly, IsAdminOrSuperuserOnly
 from .models import Lead, Agent
 from .services import get_all, last_requests
-from .serializers import LeadSerializer, AgentSerializer
+from .serializers import AddLeadSerializer, LeadListSerializer, AgentSerializer
 
 
 class LeadViewSet(ModelViewSet):
     """ ViewSet для добавления Лида в базу и вывода всех Лидов. """
     queryset = get_all(Lead)
-    serializer_class = LeadSerializer
+    serializer_class = AddLeadSerializer
 
 
 class LatestRequests(ListAPIView):
     """ Класс получения заявок. """
 
-    serializer_class = LeadSerializer
+    serializer_class = LeadListSerializer
 
     def get_queryset(self):
         days = self.kwargs['days']
