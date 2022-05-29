@@ -1,58 +1,49 @@
-from rest_framework import generics
+from rest_framework.generics import ListAPIView
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 
+from rest_framework.response import Response
 from .permissions import IsOwnerOrReadOnly, IsAdminOrSuperuserOnly
 from .models import Lead, Agent
 from .services import get_all, last_requests
-from .serializers import AddLeadSerializer, LeadListSerializer, AgentSerializer
+from .serializers import LeadSerializer, AgentSerializer
 
 
-class AddLead(generics.CreateAPIView):
-    """ Класс добавления Лида в базу. """
-
+class LeadViewSet(ModelViewSet):
+    """ ViewSet для добавления Лида в базу и вывода всех Лидов. """
     queryset = get_all(Lead)
-    serializer_class = AddLeadSerializer
+    serializer_class = LeadSerializer
 
 
-class LeadList(generics.ListAPIView):
-    """ Класс вывода списка всех Лидов"""
-
-    queryset = get_all(Lead)
-    serializer_class = LeadListSerializer
-
-
-class LatestRequests(generics.ListAPIView):
+class LatestRequests(ListAPIView):
     """ Класс получения заявок. """
 
-    serializer_class = LeadListSerializer
+    serializer_class = LeadSerializer
 
     def get_queryset(self):
         days = self.kwargs['days']
         return last_requests(Lead, days)
 
 
-class AgentList(generics.RetrieveUpdateAPIView):
-    """ Класс вывода и редактирования агента. """
-
+class AgentViewSet(ModelViewSet):
+    """ ViewSet для добавления, вывода и редактирования Агента.  """
+    queryset = get_all(Agent)
     serializer_class = AgentSerializer
-    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
-    def get_object(self):
+    def get_permissions(self):
+        if self.action in ['update', 'get', ]:
+            self.permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+        elif self.action in ['create']:
+            self.permission_classes = (IsAdminOrSuperuserOnly, )
+        return super(self.__class__, self).get_permissions()
+
+    def retrieve(self, request, pk=None):
         agent = get_object_or_404(Agent, pk=self.kwargs['pk'])
-
         if not agent.phone:
             agent.phone = 'не указано'
 
         if not agent.date_of_birth:
             agent.date_of_birth = 'не указано'
 
-        return agent
-
-
-class AddAgent(generics.CreateAPIView):
-    """Класс добавления Агента"""
-
-    queryset = get_all(Agent)
-    serializer_class = AgentSerializer
-    permission_classes = (IsAdminOrSuperuserOnly, )
+        return Response(self.get_serializer(agent).data)
