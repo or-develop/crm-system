@@ -1,14 +1,14 @@
-from django.urls import path
+from django.urls import path, include
 
-from .views import AddLead, LeadList, LatestRequests, AgentList, AddAgent
+from .views import LeadViewSet, AgentViewSet
+from rest_framework import routers
 
+router = routers.SimpleRouter()
+router.register(r'lead', LeadViewSet)
+router.register(r'agent', AgentViewSet)
 
 app_name = 'crm'
 
 urlpatterns = [
-    path('add_lead/', AddLead.as_view(), name='add_lead_url'),
-    path('leads/', LeadList.as_view(), name='list_lead_url'),
-    path('latest_requests/<int:days>/', LatestRequests.as_view(), name='latest_requests_url'),
-    path('agent/<int:pk>/', AgentList.as_view(), name='agent_url'),
-    path('add_agent/', AddAgent.as_view(), name='add_agent_url'),
+    path('', include(router.urls)),
 ]
